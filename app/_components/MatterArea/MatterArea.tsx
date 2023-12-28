@@ -13,6 +13,7 @@ import {
 } from "matter-js";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import satooruDev from "./satooru-dev.svg";
+import satooruMe from "./satooru-me.svg";
 
 type WindowSize = {
   width: number;
@@ -58,9 +59,21 @@ export default function Main() {
       },
     });
 
-    Render.run(render);
     const runner = Runner.create();
+    Render.run(render);
     Runner.run(runner, engine);
+
+    const mouse = Mouse.create(render.canvas);
+    render.mouse = mouse;
+    const mouseConstraint = MouseConstraint.create(engine, {
+      mouse: mouse,
+      constraint: {
+        stiffness: 0.2,
+        render: {
+          visible: false,
+        },
+      },
+    });
 
     const sensor = Bodies.rectangle(
       clientWidth * 0.5,
@@ -86,13 +99,30 @@ export default function Main() {
         render: {
           sprite: {
             texture: satooruDev.src,
+            xScale: 1,
+            yScale: 1,
+          },
+        },
+      }
+    );
+    const satooruMeRect = Bodies.rectangle(
+      clientWidth * 0.5,
+      clientHeight * 0.1,
+      180,
+      22,
+      {
+        friction: 0.0001,
+        restitution: 0.01,
+        render: {
+          sprite: {
+            texture: satooruMe.src,
+            xScale: 0.6,
+            yScale: 0.6,
           },
         },
       }
     );
     Composite.add(world, [
-      sensor,
-      satooruDevRect,
       Bodies.rectangle(clientWidth * 0.3, clientHeight * 0.6, 60, 60, {
         frictionAir: 0.001,
       }),
@@ -111,21 +141,11 @@ export default function Main() {
           isStatic: true,
         }
       ),
+      sensor,
+      satooruDevRect,
+      satooruMeRect,
+      mouseConstraint,
     ]);
-
-    const mouse = Mouse.create(render.canvas);
-    const mouseConstraint = MouseConstraint.create(engine, {
-      mouse: mouse,
-      constraint: {
-        stiffness: 0.2,
-        render: {
-          visible: false,
-        },
-      },
-    });
-
-    Composite.add(world, mouseConstraint);
-    render.mouse = mouse;
 
     Render.lookAt(render, {
       min: { x: 0, y: 0 },
