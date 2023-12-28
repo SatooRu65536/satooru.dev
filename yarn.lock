@@ -3844,6 +3844,11 @@ pluralize@8.0.0:
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-8.0.0.tgz#1a6fa16a38d12a1901e0320fa017051c539ce3b1"
   integrity sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==
 
+poly-decomp@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/poly-decomp/-/poly-decomp-0.3.0.tgz#aa499289bbc1a4ca2213e966587fa5bffc1ca5f5"
+  integrity sha512-hWeBxGzPYiybmI4548Fca7Up/0k1qS5+79cVHI9+H33dKya5YNb9hxl0ZnDaDgvrZSuYFBhkCK/HOnqN7gefkQ==
+
 postcss-discard-duplicates@^6.0.0:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/postcss-discard-duplicates/-/postcss-discard-duplicates-6.0.1.tgz#112b1a95948e69b3484fdd43584dda6930977939"

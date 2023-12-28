@@ -4,6 +4,7 @@ import {
   Bodies,
   Composite,
   Engine,
+  Events,
   Mouse,
   MouseConstraint,
   Render,
@@ -18,7 +19,6 @@ type WindowSize = {
 
 export default function Main() {
   const scene = useRef(null);
-  const [isMounted, setIsMounted] = useState(false);
   const [windowSize, setWindowSize] = useState<WindowSize>({
     width: 0,
     height: 0,
@@ -61,22 +61,25 @@ export default function Main() {
     Runner.run(runner, engine);
 
     Composite.add(world, [
-      Bodies.rectangle(200, 100, 60, 60, { frictionAir: 0.001 }),
-      Bodies.rectangle(400, 100, 60, 60, { frictionAir: 0.05 }),
-      Bodies.rectangle(600, 100, 60, 60, { frictionAir: 0.1 }),
+      Bodies.rectangle(clientWidth * 0.3, clientHeight * 0.6, 60, 60, {
+        frictionAir: 0.001,
+      }),
+      Bodies.rectangle(clientWidth * 0.5, clientHeight * 0.6, 60, 60, {
+        frictionAir: 0.05,
+      }),
+      Bodies.rectangle(clientWidth * 0.7, clientHeight * 0.6, 60, 60, {
+        frictionAir: 0.1,
+      }),
 
-      Bodies.rectangle(clientWidth, -100, clientWidth * 2, 200, {
-        isStatic: true,
-      }),
-      Bodies.rectangle(clientWidth, clientHeight + 80, clientWidth * 2, 200, {
-        isStatic: true,
-      }),
-      Bodies.rectangle(-100, clientHeight, 200, clientHeight * 2, {
-        isStatic: true,
-      }),
-      Bodies.rectangle(clientWidth + 100, clientHeight, 200, clientHeight * 2, {
-        isStatic: true,
-      }),
+      Bodies.rectangle(
+        clientWidth * 0.5,
+        clientHeight + 80,
+        clientWidth * 0.8,
+        200,
+        {
+          isStatic: true,
+        }
+      ),
     ]);
 
     const mouse = Mouse.create(render.canvas);
@@ -96,6 +99,51 @@ export default function Main() {
     Render.lookAt(render, {
       min: { x: 0, y: 0 },
       max: { x: clientWidth, y: clientHeight },
+    });
+
+    Events.on(mouseConstraint, "mousedown", (e) => {
+      if (mouseConstraint.body) return;
+
+      const composite = Composite.create();
+      Composite.add(world, composite);
+      const r = Math.random() * 100;
+
+      if (r < 30) {
+        const min = 20;
+        const max = 40;
+        const radius = Math.random() * (max - min) + min;
+        const ball = Bodies.circle(
+          e.mouse.position.x,
+          e.mouse.position.y,
+          radius,
+          { restitution: 0.5 }
+        );
+        Composite.add(composite, ball);
+      } else if (r < 60) {
+        const min = 20;
+        const max = 300;
+        const width = Math.random() * (max - min) + min;
+        const height = Math.random() * (max - min) + min;
+        const rect = Bodies.rectangle(
+          e.mouse.position.x,
+          e.mouse.position.y,
+          width,
+          height,
+          { restitution: 0.5 }
+        );
+        Composite.add(composite, rect);
+      } else {
+        const min = 10;
+        const max = 40;
+        const triangle = Bodies.polygon(
+          e.mouse.position.x,
+          e.mouse.position.y,
+          3,
+          Math.random() * (max - min) + min,
+          { restitution: 0.5 }
+        );
+        Composite.add(composite, triangle);
+      }
     });
 
     return () => {
