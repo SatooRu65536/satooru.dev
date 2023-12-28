@@ -15,6 +15,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import satooruDev from "./satooru-dev.svg";
 import satooruMe from "./satooru-me.svg";
 import blogSatooruMe from "./blog-satooru-me.svg";
+import { css } from "@/styled-system/css";
 
 type WindowSize = {
   width: number;
@@ -267,5 +268,13 @@ export default function Main() {
     };
   }, [windowSize]);
 
-  return <div ref={scene} />;
+  return (
+    <div
+      ref={scene}
+      className={css({
+        width: "100%",
+        height: "100%",
+      })}
+    />
+  );
 }

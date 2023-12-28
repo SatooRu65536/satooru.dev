@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <main
       className={css({
-        height: "100vh",
+        height: "100svh",
         width: "100vw",
         backgroundColor: "rgb(20, 21, 31)",
       })}
