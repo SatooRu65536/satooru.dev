@@ -71,8 +71,7 @@ export default function Main() {
         isSensor: true,
         isStatic: true,
         render: {
-          // fillStyle: "transparent",
-          strokeStyle: "#00ffff",
+          fillStyle: "transparent",
         },
       }
     );
