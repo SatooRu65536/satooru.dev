@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { M_PLUS_1 } from "next/font/google";
 import "./global.css";
 import Header from "./_cpmponents/header/header";
+import Footer from "./_cpmponents/footer/footer";
 
 const mplus = M_PLUS_1({ subsets: ["latin"] });
 
@@ -23,12 +24,18 @@ export default function RootLayout({
           fontSize: mplus.style.fontFamily,
 
           "&> main": {
-            minHeight: "100vh",
+            minHeight: "calc(100vh - 90px)",
+            padding: "40px 20px",
+
+            "@media (min-width: 700px)": {
+              padding: "40px 80px",
+            },
           },
         })}
       >
         <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );
