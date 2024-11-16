@@ -15,6 +15,8 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import satooruDev from "./satooru-dev.svg";
 import satooruMe from "./satooru-me.svg";
 import blogSatooruMe from "./blog-satooru-me.svg";
+import satooruGitHub from "./github.svg";
+import satooruX from "./x.svg";
 import { css } from "@/styled-system/css";
 
 type WindowSize = {
@@ -92,7 +94,7 @@ export default function Main() {
         render: {
           fillStyle: "transparent",
         },
-      }
+      },
     );
     const satooruDevRect = Bodies.rectangle(
       clientWidth * 0.5,
@@ -109,7 +111,7 @@ export default function Main() {
             yScale: 1,
           },
         },
-      }
+      },
     );
     const satooruMeRect = Bodies.rectangle(
       clientWidth * 0.2,
@@ -126,7 +128,7 @@ export default function Main() {
             yScale: 0.6,
           },
         },
-      }
+      },
     );
     const blogSatooruMeRect = Bodies.rectangle(
       clientWidth * 0.8,
@@ -143,8 +145,43 @@ export default function Main() {
             yScale: 0.6,
           },
         },
-      }
+      },
     );
+    const satooruGitHubRect = Bodies.rectangle(
+      clientWidth * 0.3,
+      clientHeight * 0.5,
+      180,
+      22,
+      {
+        friction: 0.0001,
+        restitution: 0.01,
+        render: {
+          sprite: {
+            texture: satooruGitHub.src,
+            xScale: 0.6,
+            yScale: 0.6,
+          },
+        },
+      },
+    );
+    const satooruXRect = Bodies.rectangle(
+      clientWidth * 0.7,
+      clientHeight * 0.5,
+      180,
+      22,
+      {
+        friction: 0.0001,
+        restitution: 0.01,
+        render: {
+          sprite: {
+            texture: satooruX.src,
+            xScale: 0.6,
+            yScale: 0.6,
+          },
+        },
+      },
+    );
+
     Composite.add(world, [
       sensor,
       Bodies.rectangle(clientWidth * 0.2, clientHeight * 0.6, 60, 60, {
@@ -163,11 +200,13 @@ export default function Main() {
         200,
         {
           isStatic: true,
-        }
+        },
       ),
       satooruDevRect,
       satooruMeRect,
       blogSatooruMeRect,
+      satooruGitHubRect,
+      satooruXRect,
       mouseConstraint,
     ]);
 
@@ -201,7 +240,7 @@ export default function Main() {
           e.mouse.position.x,
           e.mouse.position.y,
           radius,
-          { restitution: 0.5 }
+          { restitution: 0.5 },
         );
         Composite.add(composite, ball);
       } else if (r < 60) {
@@ -214,7 +253,7 @@ export default function Main() {
           e.mouse.position.y,
           width,
           height,
-          { restitution: 0.5 }
+          { restitution: 0.5 },
         );
         Composite.add(composite, rect);
       } else {
@@ -225,7 +264,7 @@ export default function Main() {
           e.mouse.position.y,
           3,
           Math.random() * (max - min) + min,
-          { restitution: 0.5 }
+          { restitution: 0.5 },
         );
         Composite.add(composite, triangle);
       }
@@ -238,6 +277,10 @@ export default function Main() {
         openLink("https://satooru.me");
       } else if (lastClickBody === blogSatooruMeRect) {
         openLink("https://blog.satooru.me");
+      } else if (lastClickBody === satooruGitHubRect) {
+        openLink("https://github.com/SatooRu65536");
+      } else if (lastClickBody === satooruXRect) {
+        openLink("https://x.com/SatooRu65536");
       }
     });
 
@@ -248,6 +291,8 @@ export default function Main() {
           satooruDevRect,
           satooruMeRect,
           blogSatooruMeRect,
+          satooruGitHubRect,
+          satooruXRect,
         ];
 
         if (bodyA !== sensor && bodyB !== sensor) return;
